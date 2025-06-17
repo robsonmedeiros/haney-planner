@@ -13,10 +13,17 @@ function HaneyPlanner() {
       .then(res => res.json())
       .then(data => {
         setSemanas(data);
-        setProgressoState(data.map(s =>
+
+        const progresso = data.map(s =>
           s.atividades.map(a => a.concluido === true)
-        ));
-        setTotalTarefas(data.reduce((acc, s) => acc + s.atividades.length, 0));
+        );
+        setProgressoState(progresso);
+
+        const total = data.reduce((acc, s) => acc + s.atividades.length, 0);
+        setTotalTarefas(total);
+
+        const concluidas = progresso.flat().filter(Boolean).length;
+        setTotalConcluidas(concluidas);
       });
   }, []);
 
