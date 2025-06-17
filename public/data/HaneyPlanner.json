@@ -10,7 +10,7 @@
       },
       {
         "descricao": "Escolher stack tecnológica (linguagens, banco de dados, ferramentas)",
-        "concluido": false
+        "concluido": true
       },
       {
         "descricao": "Criar repositório privado no GitHub e configurar acesso",
