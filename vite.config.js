@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
 		base: env.VITE_BASE_PATH,
 		plugins: [react()],
 		server: {
-		port: ports[mode],
+			port: ports[mode],
 		},
 		build: {
 			outDir: 'dist',

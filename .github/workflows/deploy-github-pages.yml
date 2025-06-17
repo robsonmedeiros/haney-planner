@@ -1,4 +1,4 @@
-name: Build e Deploy do HaneyPlanner no GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -6,26 +6,52 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
+      - name: Checkout repositório
         uses: actions/checkout@v3
 
-      - name: Instalar dependências
-        run: |
-          npm install
-
-      - name: Build do projeto
-        run: |
-          npm run build
-
-      - name: Deploy para o GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          node-version: 18
+
+      - name: Cache de dependências
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Verificar e instalar dependências
+        run: |
+          if [ ! -d "node_modules" ]; then
+            echo "Instalando dependências..."
+            npm ci
+          else
+            echo "Dependências já instaladas."
+          fi
+
+      - name: Build para produção
+        run: npm run build -- --mode production
+
+      - name: Upload do artefato para Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './dist'
+
+      - name: Deploy no GitHub Pages
+        uses: actions/deploy-pages@v2
+        id: deployment
