@@ -15,27 +15,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repositório
-        uses: actions/checkout@v3
+      - name: Checkout código
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Cache de dependências
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Verificar e instalar dependências
+      - name: Instalar dependências (se necessário)
         run: |
           if [ ! -d "node_modules" ]; then
             echo "Instalando dependências..."
@@ -47,11 +47,18 @@ jobs:
       - name: Build para produção
         run: npm run build -- --mode production
 
-      - name: Upload do artefato para Pages
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload artefatos para GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
 
-      - name: Deploy no GitHub Pages
-        uses: actions/deploy-pages@v2
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy para GitHub Pages
         id: deployment
+        uses: actions/deploy-pages@v4
