@@ -2,8 +2,11 @@
 
 echo "🧭 Inicializando repositório Git para HaneyPlanner..."
 
+echo "🔧 Iniciando processo de commit para o HaneyPlanner"
+read -p "✍️  Digite a descrição do commit: " desc
+
 git add .
-git commit -m '🧭 Projeto HaneyPlanner - estrutura inicial'
+git commit -m "🧭 Projeto HaneyPlanner - $desc"
 
 echo "🚀 Enviando código para a branch main..."
 git branch -M main

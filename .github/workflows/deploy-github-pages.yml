@@ -62,3 +62,11 @@ jobs:
       - name: Deploy para GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+    
+      - name: 🌐 Verificar disponibilidade do site
+        run: |
+          sleep 15
+          echo "🔎 Verificando página..."
+          curl -I https://robsonmedeiros.github.io/haney-planner/
+          echo "🔎 Verificando JSON de dados..."
+          curl -I https://robsonmedeiros.github.io/haney-planner/data/HaneyPlanner.json
