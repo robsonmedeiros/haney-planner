@@ -17,6 +17,5 @@ echo "📦 Instalando dependências do frontend (React + Vite)..."
 npm install
 sleep 20
 
-
 echo "🧪 Executando em VITE_ENV=development na porta 3000..."
 VITE_ENV=development npm run dev

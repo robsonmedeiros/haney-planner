@@ -1,136 +1,179 @@
 import { useEffect, useState } from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './HaneyPlanner.css';
 
 function HaneyPlanner() {
-  const [semanas, setSemanas] = useState([]);
-  const [progressoState, setProgressoState] = useState([]);
-  const [topicosState, setTopicosState] = useState([]);
-  const [totalConcluidas, setTotalConcluidas] = useState(0);
-  const [totalTarefas, setTotalTarefas] = useState(0);
+    const [semanas, setSemanas] = useState([]);
+    const [progressoState, setProgressoState] = useState([]);
+    const [topicosState, setTopicosState] = useState([]);
+    const [expandidoState, setExpandidoState] = useState([]);
+    const [semanasVisiveis, setSemanasVisiveis] = useState([]);
+    const [totalConcluidas, setTotalConcluidas] = useState(0);
+    const [totalTarefas, setTotalTarefas] = useState(0);
 
-  useEffect(() => {
-    fetch(__DATA_PATH__)
-      .then(res => res.json())
-      .then(data => {
-        setSemanas(data);
+    useEffect(() => {
+        fetch(__DATA_PATH__)
+            .then(res => res.json())
+            .then(data => {
+                setSemanas(data);
 
-        const progresso = data.map(s =>
-          s.atividades.map(a => a.concluido === true)
+                const progresso = data.map(s =>
+                    s.atividades.map(a => a.concluido === true)
+                );
+                setProgressoState(progresso);
+
+                const topicos = data.map(s =>
+                    s.atividades.map(a => a.topico || '')
+                );
+                setTopicosState(topicos);
+
+                const expandido = data.map(s =>
+                    s.atividades.map(() => false)
+                );
+                setExpandidoState(expandido);
+
+                setSemanasVisiveis(data.map(() => false));
+
+                const total = data.reduce((acc, s) => acc + s.atividades.length, 0);
+                setTotalTarefas(total);
+
+                const concluidas = progresso.flat().filter(Boolean).length;
+                setTotalConcluidas(concluidas);
+            });
+    }, []);
+
+    const handleCheck = (semanaIdx, tarefaIdx) => {
+        const newState = progressoState.map((semana, i) =>
+            semana.map((checked, j) =>
+                i === semanaIdx && j === tarefaIdx ? !checked : checked
+            )
         );
-        setProgressoState(progresso);
+        setProgressoState(newState);
+        const total = newState.flat().filter(Boolean).length;
+        setTotalConcluidas(total);
+    };
 
-        const topicos = data.map(s =>
-          s.atividades.map(a => a.topico || '')
-        );
-        setTopicosState(topicos);
+    const handleTopicoChange = (semanaIdx, tarefaIdx, value) => {
+        const updated = [...topicosState];
+        updated[semanaIdx][tarefaIdx] = value;
+        setTopicosState(updated);
+    };
 
-        const total = data.reduce((acc, s) => acc + s.atividades.length, 0);
-        setTotalTarefas(total);
+    const toggleExpandir = (semanaIdx, tarefaIdx) => {
+        const novo = [...expandidoState];
+        novo[semanaIdx][tarefaIdx] = !novo[semanaIdx][tarefaIdx];
+        setExpandidoState(novo);
+    };
 
-        const concluidas = progresso.flat().filter(Boolean).length;
-        setTotalConcluidas(concluidas);
-      });
-  }, []);
+    const toggleSemana = (idx) => {
+        const novo = [...semanasVisiveis];
+        novo[idx] = !novo[idx];
+        setSemanasVisiveis(novo);
+    };
 
-  const handleCheck = (semanaIdx, tarefaIdx) => {
-    const newState = progressoState.map((semana, i) =>
-      semana.map((checked, j) =>
-        i === semanaIdx && j === tarefaIdx ? !checked : checked
-      )
-    );
-    setProgressoState(newState);
-    const total = newState.flat().filter(Boolean).length;
-    setTotalConcluidas(total);
-  };
+    const salvarProgresso = () => {
+        const dadosAtualizados = semanas.map((s, i) => ({
+            ...s,
+            atividades: s.atividades.map((a, j) => ({
+                descricao: a.descricao,
+                concluido: progressoState[i][j],
+                topico: topicosState[i][j]
+            }))
+        }));
 
-  const handleTopicoChange = (semanaIdx, tarefaIdx, value) => {
-    const updated = [...topicosState];
-    updated[semanaIdx][tarefaIdx] = value;
-    setTopicosState(updated);
-  };
+        fetch('http://localhost:4000/api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dadosAtualizados)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('✅ Progresso salvo no backend:', data);
+                alert('Progresso salvo com sucesso!');
+            })
+            .catch(err => {
+                console.error('❌ Erro ao salvar:', err);
+                alert('Erro ao salvar progresso.');
+            });
+    };
 
-  const salvarProgresso = () => {
-    const dadosAtualizados = semanas.map((s, i) => ({
-      ...s,
-      atividades: s.atividades.map((a, j) => ({
-        descricao: a.descricao,
-        concluido: progressoState[i][j],
-        topico: topicosState[i][j]
-      }))
-    }));
+    const formatarData = (data) => {
+        const [ano, mes, dia] = data.split('-');
+        return `${dia}/${mes}/${ano}`;
+    };
 
-    fetch('http://localhost:4000/api/save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dadosAtualizados)
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log('✅ Progresso salvo no backend:', data);
-        alert('Progresso salvo com sucesso!');
-      })
-      .catch(err => {
-        console.error('❌ Erro ao salvar:', err);
-        alert('Erro ao salvar progresso.');
-      });
-  };
+    const getPct = (semanaIdx) => {
+        const completadas = progressoState[semanaIdx]?.filter(Boolean).length || 0;
+        const total = progressoState[semanaIdx]?.length || 1;
+        return Math.round((completadas / total) * 100);
+    };
 
-  const formatarData = (data) => {
-    const [ano, mes, dia] = data.split('-');
-    return `${dia}/${mes}/${ano}`;
-  };
+    return (
+        <div className="App">
+            <header className="header">
+                <img src="logo.png" alt="Logo Haney Motorsync" className="logo" />
+                <h1>Planner Interativo - Tech Challenge Haney Motorsync</h1>
+            </header>
 
-  const getPct = (semanaIdx) => {
-    const completadas = progressoState[semanaIdx]?.filter(Boolean).length || 0;
-    const total = progressoState[semanaIdx]?.length || 1;
-    return Math.round((completadas / total) * 100);
-  };
+            <div className="progressoTotal">
+                Progresso Total: {Math.round((totalConcluidas / totalTarefas) * 100)}%
+            </div>
 
-  return (
-    <div className="App">
-      <header className="header">
-        <img src="logo.png" alt="Logo Haney Motorsync" className="logo" />
-        <h1>Planner Interativo - Tech Challenge Haney Motorsync</h1>
-      </header>
+            {semanas.map((s, i) => (
+                <div key={i}>
+                    <div className="semana">
+                        <button
+                            onClick={() => toggleSemana(i)}
+                            className="toggleSemanaBtn"
+                            title={semanasVisiveis[i] ? 'Recolher semana' : 'Expandir semana'}
+                        >
+                            <i className={`bi ${semanasVisiveis[i] ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
+                        </button>
+                        <span>
+                            {s.semana} - {formatarData(s.inicio)} a {formatarData(s.fim)}
+                        </span>
+                        <span className="progresso">Progresso: {getPct(i)}%</span>
+                    </div>
 
-      <div className="progressoTotal">
-        Progresso Total: {Math.round((totalConcluidas / totalTarefas) * 100)}%
-      </div>
+                    {semanasVisiveis[i] && (
+                        <ul>
+                            {s.atividades.map((a, j) => (
+                                <li key={j} className="atividadeItem">
+                                    <div className="atividadeHeader">
+                                        <input
+                                            type="checkbox"
+                                            checked={progressoState[i]?.[j] || false}
+                                            onChange={() => handleCheck(i, j)}
+                                        />
+                                        <button
+                                            onClick={() => toggleExpandir(i, j)}
+                                            className="iconeToggleBtn"
+                                            title={expandidoState[i]?.[j] ? "Recolher" : "Expandir"}
+                                        >
+                                            <i className={`bi ${expandidoState[i]?.[j] ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+                                        </button>
+                                        <span className="descricaoTarefa">{a.descricao}</span>
+                                    </div>
 
-      {semanas.map((s, i) => (
-        <div key={i}>
-          <div className="semana">
-            <span>{s.semana} - {formatarData(s.inicio)} a {formatarData(s.fim)}</span>
-            <span className="progresso">Progresso: {getPct(i)}%</span>
-          </div>
-          <ul>
-            {s.atividades.map((a, j) => (
-              <li key={j}>
-                <div>
-                  <input
-                    type="checkbox"
-                    checked={progressoState[i]?.[j] || false}
-                    onChange={() => handleCheck(i, j)}
-                  />
-                  {a.descricao}
+                                    {expandidoState[i]?.[j] && (
+                                        <textarea
+                                            value={topicosState[i]?.[j] || ''}
+                                            onChange={(e) => handleTopicoChange(i, j, e.target.value)}
+                                            placeholder="Adicione tópicos ou observações..."
+                                        />
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
-                <textarea
-                  value={topicosState[i]?.[j] || ''}
-                  onChange={(e) => handleTopicoChange(i, j, e.target.value)}
-                  placeholder="Adicione tópicos ou observações..."
-                  style={{ width: '100%', marginTop: '6px', minHeight: '60px' }}
-                />
-              </li>
             ))}
-          </ul>
-        </div>
-      ))}
 
-      <button className="salvarBtn" onClick={salvarProgresso} title="Salvar progresso">
-        <i className="bi bi-save"></i>
-      </button>
-    </div>
-  );
+            <button className="salvarBtn" onClick={salvarProgresso} title="Salvar progresso">
+                <i className="bi bi-save"></i>
+            </button>
+        </div>
+    );
 }
 
 export default HaneyPlanner;
