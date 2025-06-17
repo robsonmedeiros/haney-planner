@@ -20,7 +20,7 @@ Planner interativo desenvolvido em React + Vite para gerenciamento de tarefas se
 └── README.md
 ```
 
-![Preview do Planner](preview_haney_planner.png)
+![Preview do Planner](public/preview_haney_planner.png)
 
 ---
 
