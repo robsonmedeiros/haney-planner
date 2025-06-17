@@ -1,0 +1,62 @@
+[
+    {
+        "semana": "Semana 1",
+        "inicio": "2025-06-21",
+        "fim": "2025-06-27",
+        "atividades": [
+            "Definir participantes e responsabilidades",
+            "Escolher stack tecnológica (linguagens, banco de dados, ferramentas)",
+            "Criar repositório privado no GitHub e configurar acesso",
+            "Configurar ambiente de desenvolvimento local (Docker + Docker Compose)",
+            "Iniciar modelagem DDD: Event Storming e Linguagem Ubíqua",
+            "Implementar estrutura básica do projeto em camadas (monolito)",
+            "Implementar entidades: Cliente, Veículo, Peça, Serviço",
+            "Criar CRUDs básicos de Cliente e Veículo",
+            "Iniciar README com instruções básicas de uso"
+        ]
+    },
+    {
+        "semana": "Semana 2",
+        "inicio": "2025-06-28",
+        "fim": "2025-07-04",
+        "atividades": [
+            "Implementar Criação da Ordem de Serviço (com CPF/CNPJ e dados do veículo)",
+            "Implementar associação de serviços e peças à OS",
+            "Gerar orçamento automático",
+            "Implementar fluxo de envio e aprovação de orçamento",
+            "Implementar status da OS (com mudanças automáticas)",
+            "Implementar autenticação JWT para rotas administrativas",
+            "Criar testes unitários e de integração (mínimo 80% de cobertura)",
+            "Atualizar documentação Swagger para todas as rotas RESTful",
+            "Validar dados sensíveis (CPF/CNPJ, placas)",
+            "Atualizar README com instruções de endpoints, testes e exemplos"
+        ]
+    },
+    {
+        "semana": "Semana 3",
+        "inicio": "2025-07-05",
+        "fim": "2025-07-11",
+        "atividades": [
+            "Concluir CRUD de peças, serviços e ordens de serviço",
+            "Adicionar controle de estoque de peças e insumos",
+            "Implementar consulta de OS por cliente (via API)",
+            "Medir tempo médio de execução dos serviços",
+            "Realizar scan de vulnerabilidades (SonarQube, Snyk, Trivy)",
+            "Gerar relatório de análise de vulnerabilidades",
+            "Finalizar documentação DDD: Diagramas e Miro",
+            "Revisar código e aplicar melhorias de qualidade e segurança"
+        ]
+    },
+    {
+        "semana": "Semana 4",
+        "inicio": "2025-07-12",
+        "fim": "2025-07-18",
+        "atividades": [
+            "Gravar vídeo de até 15 minutos mostrando sistema, arquitetura e testes",
+            "Revisar todos os itens solicitados",
+            "Preparar documento de entrega com nomes, links e relatório",
+            "Conferir Dockerfile, docker-compose e cobertura de testes",
+            "Finalizar README e documentação DDD com links no PDF"
+        ]
+    }
+]
