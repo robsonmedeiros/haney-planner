@@ -6,39 +6,48 @@
     "atividades": [
       {
         "descricao": "Definir participantes e responsabilidades",
-        "concluido": true
+        "concluido": true,
+        "topico": "Teste"
       },
       {
         "descricao": "Escolher stack tecnológica (linguagens, banco de dados, ferramentas)",
-        "concluido": true
+        "concluido": true,
+        "topico": ""
       },
       {
         "descricao": "Criar repositório privado no GitHub e configurar acesso",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Configurar ambiente de desenvolvimento local (Docker + Docker Compose)",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Iniciar modelagem DDD: Event Storming e Linguagem Ubíqua",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Implementar estrutura básica do projeto em camadas (monolito)",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Implementar entidades: Cliente, Veículo, Peça, Serviço",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Criar CRUDs básicos de Cliente e Veículo",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Iniciar README com instruções básicas de uso",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       }
     ]
   },
@@ -49,43 +58,53 @@
     "atividades": [
       {
         "descricao": "Implementar Criação da Ordem de Serviço (com CPF/CNPJ e dados do veículo)",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Implementar associação de serviços e peças à OS",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Gerar orçamento automático",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Implementar fluxo de envio e aprovação de orçamento",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Implementar status da OS (com mudanças automáticas)",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Implementar autenticação JWT para rotas administrativas",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Criar testes unitários e de integração (mínimo 80% de cobertura)",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Atualizar documentação Swagger para todas as rotas RESTful",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Validar dados sensíveis (CPF/CNPJ, placas)",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Atualizar README com instruções de endpoints, testes e exemplos",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       }
     ]
   },
@@ -96,35 +115,43 @@
     "atividades": [
       {
         "descricao": "Concluir CRUD de peças, serviços e ordens de serviço",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Adicionar controle de estoque de peças e insumos",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Implementar consulta de OS por cliente (via API)",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Medir tempo médio de execução dos serviços",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Realizar scan de vulnerabilidades (SonarQube, Snyk, Trivy)",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Gerar relatório de análise de vulnerabilidades",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Finalizar documentação DDD: Diagramas e Miro",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Revisar código e aplicar melhorias de qualidade e segurança",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       }
     ]
   },
@@ -135,23 +162,28 @@
     "atividades": [
       {
         "descricao": "Gravar vídeo de até 15 minutos mostrando sistema, arquitetura e testes",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Revisar todos os itens solicitados",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Preparar documento de entrega com nomes, links e relatório",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Conferir Dockerfile, docker-compose e cobertura de testes",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       },
       {
         "descricao": "Finalizar README e documentação DDD com links no PDF",
-        "concluido": false
+        "concluido": false,
+        "topico": ""
       }
     ]
   }

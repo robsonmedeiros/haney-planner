@@ -37,12 +37,8 @@ jobs:
 
       - name: Instalar dependências (se necessário)
         run: |
-          if [ ! -d "node_modules" ]; then
-            echo "Instalando dependências..."
-            npm ci
-          else
-            echo "Dependências já instaladas."
-          fi
+          rm -rf node_modules
+          npm ci
 
       - name: Build para produção
         run: npm run build -- --mode production

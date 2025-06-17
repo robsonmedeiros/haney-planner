@@ -1,10 +1,10 @@
-
 import { useEffect, useState } from 'react';
 import './HaneyPlanner.css';
 
 function HaneyPlanner() {
   const [semanas, setSemanas] = useState([]);
   const [progressoState, setProgressoState] = useState([]);
+  const [topicosState, setTopicosState] = useState([]);
   const [totalConcluidas, setTotalConcluidas] = useState(0);
   const [totalTarefas, setTotalTarefas] = useState(0);
 
@@ -18,6 +18,11 @@ function HaneyPlanner() {
           s.atividades.map(a => a.concluido === true)
         );
         setProgressoState(progresso);
+
+        const topicos = data.map(s =>
+          s.atividades.map(a => a.topico || '')
+        );
+        setTopicosState(topicos);
 
         const total = data.reduce((acc, s) => acc + s.atividades.length, 0);
         setTotalTarefas(total);
@@ -38,12 +43,19 @@ function HaneyPlanner() {
     setTotalConcluidas(total);
   };
 
+  const handleTopicoChange = (semanaIdx, tarefaIdx, value) => {
+    const updated = [...topicosState];
+    updated[semanaIdx][tarefaIdx] = value;
+    setTopicosState(updated);
+  };
+
   const salvarProgresso = () => {
     const dadosAtualizados = semanas.map((s, i) => ({
       ...s,
       atividades: s.atividades.map((a, j) => ({
         descricao: a.descricao,
-        concluido: progressoState[i][j]
+        concluido: progressoState[i][j],
+        topico: topicosState[i][j]
       }))
     }));
 
@@ -94,20 +106,28 @@ function HaneyPlanner() {
           <ul>
             {s.atividades.map((a, j) => (
               <li key={j}>
-                <input
-                  type="checkbox"
-                  checked={progressoState[i]?.[j] || false}
-                  onChange={() => handleCheck(i, j)}
+                <div>
+                  <input
+                    type="checkbox"
+                    checked={progressoState[i]?.[j] || false}
+                    onChange={() => handleCheck(i, j)}
+                  />
+                  {a.descricao}
+                </div>
+                <textarea
+                  value={topicosState[i]?.[j] || ''}
+                  onChange={(e) => handleTopicoChange(i, j, e.target.value)}
+                  placeholder="Adicione tópicos ou observações..."
+                  style={{ width: '100%', marginTop: '6px', minHeight: '60px' }}
                 />
-                {a.descricao}
               </li>
             ))}
           </ul>
         </div>
       ))}
 
-      <button className="salvarBtn" onClick={salvarProgresso}>
-        Salvar Progresso
+      <button className="salvarBtn" onClick={salvarProgresso} title="Salvar progresso">
+        <i className="bi bi-save"></i>
       </button>
     </div>
   );
