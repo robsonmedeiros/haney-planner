@@ -27,9 +27,6 @@ export default defineConfig(({ mode }) => {
         plugins: [react()],
         server: {
             port: ports[mode],
-            proxy: {
-                '/api': 'http://localhost:4000', // redireciona chamadas para o backend
-            }
         },
         build: {
             outDir: 'dist',
