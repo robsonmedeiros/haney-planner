@@ -1,0 +1,62 @@
+[2025-06-18T17:45:08.526Z] [INFO] Clique do usuário - {"tag":"DIV","id":"N/A","className":"container py-4 bg-light min-vh-100 font-sans","text":"Histórico de Logs Limpar LogsTodosInfoWarnErrorNenhum log encontrado com os filtros atuais."}
+[2025-06-18T17:45:10.622Z] [INFO] Navegação para nova rota - {"path":"/logs"}
+[2025-06-18T17:45:10.625Z] [INFO] Navegação para nova rota - {"path":"/logs"}
+[2025-06-18T17:45:15.810Z] [INFO] Clique do usuário - {"tag":"I","id":"N/A","className":"bi bi-chevron-down","text":"N/A"}
+[2025-06-18T17:45:19.470Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:45:19.480Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:45:21.066Z] [INFO] Clique do usuário - {"tag":"DIV","id":"N/A","className":"atividadeHeader","text":"Escolher stack tecnológica (linguagens, banco de dados, ferramentas)"}
+[2025-06-18T17:45:21.485Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:45:21.493Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:45:22.133Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:45:22.141Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:45:24.266Z] [INFO] Clique do usuário - {"tag":"DIV","id":"N/A","className":"container py-4 bg-light min-vh-100 font-sans","text":"Histórico de Logs Limpar LogsTodosInfoWarnErrorNenhum log encontrado com os filtros atuais."}
+[2025-06-18T17:45:25.724Z] [INFO] Navegação para nova rota - {"path":"/logs"}
+[2025-06-18T17:45:25.727Z] [INFO] Navegação para nova rota - {"path":"/logs"}
+[2025-06-18T17:47:05.483Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:05.491Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:12.559Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-sm btn-light text-dark","text":"Error","type":"submit"}
+[2025-06-18T17:47:13.147Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-sm btn-light text-dark","text":"Warn","type":"submit"}
+[2025-06-18T17:47:13.675Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-sm btn-light text-dark","text":"Info","type":"submit"}
+[2025-06-18T17:47:29.418Z] [INFO] Navegação para nova rota - {"path":"/"}
+[2025-06-18T17:47:29.422Z] [INFO] Navegação para nova rota - {"path":"/"}
+[2025-06-18T17:47:33.459Z] [INFO] Clique do usuário - {"tag":"I","id":"N/A","className":"bi bi-chevron-down","text":"N/A"}
+[2025-06-18T17:47:35.195Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:35.205Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:35.827Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:35.835Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:37.119Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:37.126Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:37.683Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:37.690Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:38.655Z] [INFO] Clique do usuário - {"tag":"DIV","id":"N/A","className":"atividadeHeader","text":"Escolher stack tecnológica (linguagens, banco de dados, ferramentas)"}
+[2025-06-18T17:47:39.087Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:39.095Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:39.547Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:39.554Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:40.079Z] [INFO] Clique do usuário - {"tag":"UL","id":"N/A","className":"N/A","text":"Definir participantes e responsabilidadesEscolher stack tecnológica (linguagens, banco de dados, fer"}
+[2025-06-18T17:47:40.527Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:47:40.533Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"N/A","text":"N/A","type":"checkbox","value":"on"}
+[2025-06-18T17:50:28.965Z] [INFO] Clique do usuário - {"tag":"I","id":"N/A","className":"bi bi-chevron-down ms-2 ","text":"N/A"}
+[2025-06-18T17:50:39.473Z] [INFO] Clique do usuário - {"tag":"I","id":"N/A","className":"bi bi-chevron-down ms-2 ","text":"N/A"}
+[2025-06-18T17:50:48.361Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-link text-decoration-none text-primary fw-semibold d-flex align-items-center","text":"Detalhes","type":"submit"}
+[2025-06-18T17:50:50.649Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-link text-decoration-none text-primary fw-semibold d-flex align-items-center","text":"Detalhes","type":"submit"}
+[2025-06-18T17:50:53.526Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text"}
+[2025-06-18T17:50:58.437Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text","value":"input"}
+[2025-06-18T17:51:04.297Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-sm btn-light text-dark","text":"Todos","type":"submit"}
+[2025-06-18T17:51:06.153Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text","value":"input"}
+[2025-06-18T17:51:07.705Z] [INFO] Clique do usuário - {"tag":"DIV","id":"N/A","className":"p-3 mb-4 bg-white rounded-3 shadow-sm border d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3","text":"TodosInfoWarnError"}
+[2025-06-18T17:51:21.609Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-sm btn-light text-dark","text":"Error","type":"submit"}
+[2025-06-18T17:51:22.362Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-sm btn-light text-dark","text":"Warn","type":"submit"}
+[2025-06-18T17:51:23.009Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-sm btn-light text-dark","text":"Info","type":"submit"}
+[2025-06-18T17:51:23.825Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-sm btn-light text-dark","text":"Todos","type":"submit"}
+[2025-06-18T17:51:29.017Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text"}
+[2025-06-18T17:52:58.298Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text"}
+[2025-06-18T17:52:58.846Z] [INFO] Clique do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text"}
+[2025-06-18T17:53:08.962Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text","value":"input"}
+[2025-06-18T17:53:09.072Z] [INFO] Clique do usuário - {"tag":"I","id":"N/A","className":"bi bi-chevron-down ms-2 ","text":"N/A"}
+[2025-06-18T17:53:16.038Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-link text-decoration-none text-primary fw-semibold d-flex align-items-center","text":"Detalhes","type":"submit"}
+[2025-06-18T17:53:19.595Z] [INFO] Clique do usuário - {"tag":"DIV","id":"N/A","className":"p-3 mb-4 bg-white rounded-3 shadow-sm border d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3","text":"TodosInfoWarnError"}
+[2025-06-18T17:53:25.273Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text","value":"check"}
+[2025-06-18T17:53:25.370Z] [INFO] Clique do usuário - {"tag":"BUTTON","id":"N/A","className":"btn btn-link text-decoration-none text-primary fw-semibold d-flex align-items-center","text":"Detalhes","type":"submit"}
+[2025-06-18T17:53:28.112Z] [INFO] Clique do usuário - {"tag":"DIV","id":"N/A","className":"p-3 mb-4 bg-white rounded-3 shadow-sm border d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3","text":"TodosInfoWarnError"}
+[2025-06-18T17:54:02.555Z] [INFO] Entrada de dados do usuário - {"tag":"INPUT","id":"N/A","className":"form-control ps-5","text":"N/A","type":"text"}
