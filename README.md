@@ -172,3 +172,37 @@ Este script facilita o versionamento com branches `feature/`, commit, merge e li
 5. Deleta a branch local e remota
 
 Ideal para manter seu fluxo Git organizado e padronizado.
+
+---
+
+## 🧪 Testes com Jest
+
+Este projeto usa `Jest` com `Testing Library` para testes unitários.
+
+### Rodar todos os testes:
+
+```bash
+npm test
+```
+
+### Rodar em modo observação:
+
+```bash
+npm run test:watch
+```
+
+### Gerar cobertura de testes:
+
+```bash
+npm run coverage
+```
+
+> O relatório de cobertura estará em `coverage/lcov-report/index.html`
+
+---
+
+## 🛠️ Ferramentas e Configuração
+
+- Babel com presets para React (`.babelrc`)
+- Jest configurado via `jest.config.js`
+- Suporte a importação de CSS com `identity-obj-proxy`
