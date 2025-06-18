@@ -17,7 +17,7 @@
       {
         "descricao": "Criar repositório privado no GitHub e configurar acesso",
         "concluido": false,
-        "topico": "Teste"
+        "topico": ""
       },
       {
         "descricao": "Configurar ambiente de desenvolvimento local (Docker + Docker Compose)",

@@ -104,4 +104,5 @@ git push origin --delete "$branch"
 
 echo "✅ Merge da '$branch' concluído com sucesso! O branch '$branch' foi mesclado e excluído."
 echo "🌟 Lembre-se de atualizar o branch 'main' com as últimas alterações do repositório remoto."
-echo "🚀 Commit realizado com sucesso! O branch '$branch' foi criado, mesclado e excluído."'
+echo "🚀 Commit realizado com sucesso! O branch '$branch' foi criado, mesclado e excluído."
+echo -e "\033[1;34m🔚 Fim do processo de commit.\033[0m"
