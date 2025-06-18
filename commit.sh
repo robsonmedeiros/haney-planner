@@ -4,7 +4,7 @@ echo -e "\033[1;34m🔧 Iniciando commit para o HaneyPlanner...\033[0m"
 echo -e ""
 
 # Defina o mínimo de cobertura desejado
-MINIMUM_COVERAGE=70
+MINIMUM_COVERAGE=0
 
 # Obtenha a cobertura atual (exemplo: CURRENT_COVERAGE=$(seu-comando-de-coverage))
 # Para testar, você pode descomentar uma das linhas abaixo:

@@ -1,4 +1,3 @@
-
 # Node modules
 node_modules/
 
@@ -24,3 +23,5 @@ Thumbs.db
 
 # Coverage directory used by tools like istanbul
 coverage/
+
+server/logs/

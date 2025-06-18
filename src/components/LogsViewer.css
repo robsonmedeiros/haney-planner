@@ -1,0 +1,41 @@
+.logs-list {
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.card {
+    border-left: 0.25rem solid transparent;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.bg-success {
+    background-color: #198754 !important;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.text-success {
+    color: #198754 !important;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.btn-link {
+    font-size: 0.9rem;
+}
