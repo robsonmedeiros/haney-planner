@@ -4,7 +4,11 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import HaneyPlanner from './HaneyPlanner';
 import LogsViewer from './components/LogsViewer';
 import logger from './utils/logger';
-import './HaneyPlanner.css'; // Importa o CSS do Haney Planner
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+// Import Bootstrap JavaScript bundle (optional, only if you need JS components like dropdowns, modals)
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 /**
  * Extrai detalhes relevantes de um elemento HTML para logging.

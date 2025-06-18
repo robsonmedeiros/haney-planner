@@ -2,10 +2,10 @@
 export default {
     content: [
         "./index.html",
-        "./src/**/*.{js,ts,jsx,tsx}", // Isso cobre todos os arquivos JSX na pasta src
+        "./src/**/*.{js,jsx,ts,tsx}",
     ],
     theme: {
         extend: {},
     },
     plugins: [],
-}
+};

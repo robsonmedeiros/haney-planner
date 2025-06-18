@@ -8,11 +8,11 @@ import logger from '../utils/logger';
  */
 const DetailsViewer = ({ data }) => {
     if (!data || Object.keys(data).length === 0) {
-        return <p className="text-sm text-gray-500 italic mt-2">Sem detalhes adicionais.</p>;
+        return <p className="text-muted fst-italic mt-2">Sem detalhes adicionais.</p>;
     }
     return (
-        <div className="mt-4 bg-gray-100 p-3 rounded-lg text-xs text-gray-700">
-            <pre className="whitespace-pre-wrap break-all">
+        <div className="mt-4 bg-light p-3 rounded text-sm text-secondary">
+            <pre className="text-wrap">
                 {JSON.stringify(data, null, 2)}
             </pre>
         </div>
@@ -27,47 +27,49 @@ const LogItem = ({ log }) => {
 
     const levelStyles = {
         info: {
-            bar: 'bg-green-500',
+            bar: 'bg-success',
             icon: 'bi-info-circle-fill',
-            iconColor: 'text-green-500',
+            iconColor: 'text-success',
         },
         warn: {
-            bar: 'bg-yellow-500',
+            bar: 'bg-warning',
             icon: 'bi-exclamation-triangle-fill',
-            iconColor: 'text-yellow-500',
+            iconColor: 'text-warning',
         },
         error: {
-            bar: 'bg-red-500',
+            bar: 'bg-danger',
             icon: 'bi-x-octagon-fill',
-            iconColor: 'text-red-500',
+            iconColor: 'text-danger',
         },
     };
 
     const styles = levelStyles[log.level] || levelStyles.info;
 
     return (
-        <div className="bg-white border border-gray-200 rounded-lg shadow-sm mb-3 overflow-hidden">
-            <div className="flex items-start p-4">
-                <div className={`w-1.5 h-full self-stretch rounded ${styles.bar} mr-4`}></div>
+        <div className="card mb-3 overflow-hidden">
+            <div className="d-flex align-items-start p-4">
+                {/* Bootstrap doesn't have a direct equivalent for w-1.5 h-full bar,
+                    so we'll use a custom style or a column with specific width */}
+                <div style={{ width: '0.375rem', height: 'auto' }} className={`flex-shrink-0 align-self-stretch rounded-start ${styles.bar} me-4`}></div>
                 <div className="flex-shrink-0">
-                    <i className={`text-2xl ${styles.icon} ${styles.iconColor}`}></i>
+                    <i className={`fs-4 ${styles.icon} ${styles.iconColor}`}></i>
                 </div>
-                <div className="flex-grow mx-4">
-                    <p className="font-semibold text-gray-800">{log.message}</p>
-                    <p className="text-sm text-gray-500 mt-1">
+                <div className="flex-grow-1 mx-4">
+                    <p className="fw-semibold text-dark">{log.message}</p>
+                    <p className="text-sm text-muted mt-1">
                         {new Date(log.timestamp).toLocaleString('pt-BR')}
                     </p>
                 </div>
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="flex items-center text-sm text-blue-600 hover:text-blue-800 font-semibold"
+                    className="btn btn-link text-decoration-none text-primary fw-semibold d-flex align-items-center"
                 >
                     Detalhes
                     <i className={`bi bi-chevron-down ms-2 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}></i>
                 </button>
             </div>
             {isExpanded && (
-                <div className="px-4 pb-4 pl-16">
+                <div className="px-4 pb-4 ps-5"> {/* Adjusted padding for alignment */}
                     <DetailsViewer data={log.details} />
                 </div>
             )}
@@ -114,9 +116,9 @@ export default function LogsViewer() {
             <button
                 key={level}
                 onClick={() => setFilterLevel(level)}
-                className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${filterLevel === level
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100'
+                className={`btn btn-sm ${filterLevel === level
+                    ? 'btn-primary'
+                    : 'btn-light text-dark' // Using btn-light and text-dark for a light gray button
                     }`}
             >
                 {levelLabels[level]}
@@ -125,33 +127,33 @@ export default function LogsViewer() {
     };
 
     return (
-        <div className="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen font-sans">
-            <header className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-800 flex items-center">
-                    <i className="bi bi-clipboard-data me-3 text-blue-600"></i>
+        <div className="container py-4 bg-light min-vh-100 font-sans">
+            <header className="d-flex justify-content-between align-items-center mb-4">
+                <h1 className="h3 fw-bold text-dark d-flex align-items-center">
+                    <i className="bi bi-clipboard-data me-3 text-primary"></i>
                     Histórico de Logs
                 </h1>
                 <button
                     onClick={clearLogs}
-                    className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg shadow-sm hover:bg-red-700 transition"
+                    className="btn btn-danger shadow-sm d-flex align-items-center"
                 >
                     <i className="bi bi-trash me-2"></i> Limpar Logs
                 </button>
             </header>
 
             {/* Barra de Ferramentas e Filtros */}
-            <div className="p-4 mb-6 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div className="flex items-center gap-2 p-1 bg-gray-100 rounded-lg">
+            <div className="p-3 mb-4 bg-white rounded-3 shadow-sm border d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                <div className="btn-group" role="group" aria-label="Filtro de Nível">
                     {renderFilterButtons()}
                 </div>
-                <div className="relative w-full sm:w-auto">
-                    <i className="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <div className="position-relative w-100 w-sm-auto">
+                    <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
                     <input
                         type="text"
                         placeholder="Filtrar por mensagem..."
                         value={filterText}
                         onChange={(e) => setFilterText(e.target.value)}
-                        className="w-full sm:w-64 ps-10 pe-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        className="form-control ps-5"
                     />
                 </div>
             </div>
@@ -163,9 +165,9 @@ export default function LogsViewer() {
                         <LogItem key={`${log.timestamp}-${index}`} log={log} />
                     ))
                 ) : (
-                    <div className="text-center py-16">
-                        <i className="bi bi-journal-x text-5xl text-gray-300"></i>
-                        <p className="mt-4 text-gray-500">Nenhum log encontrado com os filtros atuais.</p>
+                    <div className="text-center py-5">
+                        <i className="bi bi-journal-x display-4 text-muted"></i>
+                        <p className="mt-3 text-muted">Nenhum log encontrado com os filtros atuais.</p>
                     </div>
                 )}
             </main>
