@@ -87,15 +87,12 @@ function GlobalActionLogger() {
 }
 
 function App() {
-
-    const basename = import.meta.env.DEV ? '/' : '/haney-planner';
-
     return (
         <Router>
             <GlobalActionLogger /> {/* Componente responsável pelo logging global */}
             <Routes>
-                <Route basename={basename} path="/" element={<HaneyPlanner />} />
-                <Route basename={basename} path="/logs" element={<LogsViewer />} />
+                <Route path="/" element={<HaneyPlanner />} />
+                <Route path="/logs" element={<LogsViewer />} />
             </Routes>
         </Router>
     );

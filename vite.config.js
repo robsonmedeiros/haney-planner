@@ -1,3 +1,4 @@
+
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -13,6 +14,7 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
 
     return {
+        // Define the test environment
         test: {
             globals: true,
             environment: 'jsdom',
@@ -23,6 +25,7 @@ export default defineConfig(({ mode }) => {
                 reportsDirectory: 'coverage'
             }
         },
+        // Define the base path for the application
         base: env.VITE_BASE_PATH,
         plugins: [react()],
         server: {

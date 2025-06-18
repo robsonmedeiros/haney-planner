@@ -1,139 +1,27 @@
-
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Row, Col } from 'react-bootstrap';
-import './LogsViewer.css';
+import logger from '../utils/logger';
+// A importação dos ícones do Bootstrap é assumida como global.
+// Se não for, adicione: import 'bootstrap-icons/font/bootstrap-icons.css';
 
-const LogsViewer = () => {
-    const [logs, setLogs] = useState([]);
-    const [filtro, setFiltro] = useState('');
-    const [pesquisa, setPesquisa] = useState('');
-    const [paginaAtual, setPaginaAtual] = useState(1);
-    const [logsPorPagina, setLogsPorPagina] = useState(10);
-
-    useEffect(() => {
-        fetch('/api/logs')
-            .then((res) => res.json())
-            .then((data) => setLogs(data))
-            .catch((error) => console.error('Erro ao buscar logs:', error));
-    }, []);
-
-    const indiceInicial = (paginaAtual - 1) * logsPorPagina;
-    const indiceFinal = indiceInicial + logsPorPagina;
-
-    const logsFiltrados = logs.filter((log) => {
-        const nivelMatch = filtro === '' || log.level === filtro;
-        const pesquisaMatch =
-            pesquisa === '' || JSON.stringify(log).toLowerCase().includes(pesquisa.toLowerCase());
-        return nivelMatch && pesquisaMatch;
-    });
-
-    const totalPaginas = Math.ceil(logsFiltrados.length / logsPorPagina);
-    const logsPaginados = logsFiltrados.slice(indiceInicial, indiceFinal);
-
+/**
+ * Componente que renderiza os detalhes de um log de forma estruturada.
+ */
+const DetailsViewer = ({ data }) => {
+    if (!data || Object.keys(data).length === 0) {
+        return <p className="text-muted fst-italic mt-2">Sem detalhes adicionais.</p>;
+    }
     return (
-        <Container className="my-4">
-            <div className="d-flex align-items-center mb-4">
-                <img src="/logo.png" alt="Logo" height="40" className="me-3" />
-                <h2 className="mb-0">Visualizador de Logs - Tech Challenge Haney Motorsync</h2>
-            </div>
-            <Row className="mb-3">
-                <Col md={6}>
-                    <Form.Control
-                        type="text"
-                        placeholder="Pesquisar..."
-                        value={pesquisa}
-                        onChange={(e) => {
-                            setPesquisa(e.target.value);
-                            setPaginaAtual(1);
-                        }}
-                    />
-                </Col>
-                <Col md={3}>
-                    <Form.Select
-                        value={logsPorPagina}
-                        onChange={(e) => {
-                            setLogsPorPagina(Number(e.target.value));
-                            setPaginaAtual(1);
-                        }}
-                    >
-                        <option value={10}>10 por página</option>
-                        <option value={20}>20 por página</option>
-                        <option value={50}>50 por página</option>
-                        <option value={100}>100 por página</option>
-                    </Form.Select>
-                </Col>
-                <Col md={3}>
-                    <Form.Select
-                        value={filtro}
-                        onChange={(e) => {
-                            setFiltro(e.target.value);
-                            setPaginaAtual(1);
-                        }}
-                    >
-                        <option value="">Todos os níveis</option>
-                        <option value="info">Info</option>
-                        <option value="warn">Warn</option>
-                        <option value="error">Error</option>
-                    </Form.Select>
-                </Col>
-            </Row>
-
-            <div className="logs-list">
-                {logsPaginados.map((log, index) => (
-                    <LogItem key={index} log={log} />
-                ))}
-            </div>
-
-            {totalPaginas > 0 && (
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mt-4 gap-2">
-                    <div className="text-muted small">
-                        Exibindo {indiceInicial + 1} a {Math.min(indiceFinal, logsFiltrados.length)} de {logsFiltrados.length} registros
-                    </div>
-
-                    <div className="d-flex align-items-center gap-2">
-                        <button
-                            className="btn btn-secondary btn-sm"
-                            onClick={() => setPaginaAtual(1)}
-                            disabled={paginaAtual === 1}
-                        >
-                            « Primeira
-                        </button>
-
-                        <button
-                            className="btn btn-dark btn-sm"
-                            disabled={paginaAtual === 1}
-                            onClick={() => setPaginaAtual(paginaAtual - 1)}
-                        >
-                            ← Anterior
-                        </button>
-
-                        <span className="fw-semibold small">
-                            Página {paginaAtual} de {totalPaginas}
-                        </span>
-
-                        <button
-                            className="btn btn-dark btn-sm"
-                            disabled={paginaAtual === totalPaginas}
-                            onClick={() => setPaginaAtual(paginaAtual + 1)}
-                        >
-                            Próxima →
-                        </button>
-
-                        <button
-                            className="btn btn-secondary btn-sm"
-                            onClick={() => setPaginaAtual(totalPaginas)}
-                            disabled={paginaAtual === totalPaginas}
-                        >
-                            Última »
-                        </button>
-                    </div>
-                </div>
-            )}
-
-        </Container >
+        <div className="mt-4 bg-light p-3 rounded text-sm text-secondary">
+            <pre className="text-wrap">
+                {JSON.stringify(data, null, 2)}
+            </pre>
+        </div>
     );
 };
 
+/**
+ * Componente que representa um único item/card de log na lista.
+ */
 const LogItem = ({ log }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -160,44 +48,129 @@ const LogItem = ({ log }) => {
     return (
         <div className="card mb-3 overflow-hidden">
             <div className="d-flex align-items-start p-4">
-                <div
-                    style={{ width: '0.375rem' }}
-                    className={`flex-shrink-0 align-self-stretch rounded-start ${styles.bar} me-4`}
-                ></div>
+                {/* Bootstrap doesn't have a direct equivalent for w-1.5 h-full bar,
+                    so we'll use a custom style or a column with specific width */}
+                <div style={{ width: '0.375rem', height: 'auto' }} className={`flex-shrink-0 align-self-stretch rounded-start ${styles.bar} me-4`}></div>
                 <div className="flex-shrink-0">
                     <i className={`fs-4 ${styles.icon} ${styles.iconColor}`}></i>
                 </div>
                 <div className="flex-grow-1 mx-4">
-                    <p className="fw-semibold text-dark">{log.evento || log.message}</p>
+                    <p className="fw-semibold text-dark">{log.message}</p>
                     <p className="text-sm text-muted mt-1">
                         {new Date(log.timestamp).toLocaleString('pt-BR')}
                     </p>
                 </div>
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="btn btn-link text-decoration-none text-secondary fw-semibold d-flex align-items-center"
+                    className="btn btn-link text-decoration-none text-primary fw-semibold d-flex align-items-center"
                 >
                     Detalhes
-                    <i className={`bi bi-chevron-${isExpanded ? 'up' : 'down'} ms-2`}></i>
+                    <i className={`bi bi-chevron-down ms-2 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}></i>
                 </button>
             </div>
             {isExpanded && (
-                <div className="px-4 pb-4 ps-5">
-                    <DetailsViewer data={log.details || log.objeto} />
+                <div className="px-4 pb-4 ps-5"> {/* Adjusted padding for alignment */}
+                    <DetailsViewer data={log.details} />
                 </div>
             )}
         </div>
     );
 };
 
-const DetailsViewer = ({ data }) => {
-    if (!data || typeof data !== 'object') return <div className="text-muted">Nenhum detalhe disponível.</div>;
+export default function LogsViewer() {
+    const [logs, setLogs] = useState([]);
+    const [filteredLogs, setFilteredLogs] = useState([]);
+    const [filterLevel, setFilterLevel] = useState('all');
+    const [filterText, setFilterText] = useState('');
+
+    useEffect(() => {
+        const storedLogs = logger.getAll().reverse();
+        setLogs(storedLogs);
+    }, []);
+
+    useEffect(() => {
+        let result = logs;
+        if (filterLevel !== 'all') {
+            result = result.filter(log => log.level === filterLevel);
+        }
+        if (filterText) {
+            const lowercasedFilter = filterText.toLowerCase();
+            result = result.filter(log =>
+                log.message.toLowerCase().includes(lowercasedFilter) ||
+                JSON.stringify(log.details).toLowerCase().includes(lowercasedFilter)
+            );
+        }
+        setFilteredLogs(result);
+    }, [logs, filterLevel, filterText]);
+
+    const clearLogs = () => {
+        logger.clear();
+        setLogs([]);
+    };
+
+    const renderFilterButtons = () => {
+        const levels = ['all', 'info', 'warn', 'error'];
+        const levelLabels = { all: 'Todos', info: 'Info', warn: 'Warn', error: 'Error' };
+
+        return levels.map(level => (
+            <button
+                key={level}
+                onClick={() => setFilterLevel(level)}
+                className={`btn btn-sm ${filterLevel === level
+                    ? 'btn-primary'
+                    : 'btn-light text-dark' // Using btn-light and text-dark for a light gray button
+                    }`}
+            >
+                {levelLabels[level]}
+            </button>
+        ));
+    };
 
     return (
-        <div className="bg-light border rounded p-3">
-            <pre className="mb-0 small text-dark">{JSON.stringify(data, null, 2)}</pre>
+        <div className="container py-4 bg-light min-vh-100 font-sans">
+            <header className="d-flex justify-content-between align-items-center mb-4">
+                <h1 className="h3 fw-bold text-dark d-flex align-items-center">
+                    <i className="bi bi-clipboard-data me-3 text-primary"></i>
+                    Histórico de Logs
+                </h1>
+                <button
+                    onClick={clearLogs}
+                    className="btn btn-danger shadow-sm d-flex align-items-center"
+                >
+                    <i className="bi bi-trash me-2"></i> Limpar Logs
+                </button>
+            </header>
+
+            {/* Barra de Ferramentas e Filtros */}
+            <div className="p-3 mb-4 bg-white rounded-3 shadow-sm border d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                <div className="btn-group" role="group" aria-label="Filtro de Nível">
+                    {renderFilterButtons()}
+                </div>
+                <div className="position-relative w-100 w-sm-auto">
+                    <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input
+                        type="text"
+                        placeholder="Filtrar por mensagem..."
+                        value={filterText}
+                        onChange={(e) => setFilterText(e.target.value)}
+                        className="form-control ps-5"
+                    />
+                </div>
+            </div>
+
+            {/* Lista de Logs */}
+            <main>
+                {filteredLogs.length > 0 ? (
+                    filteredLogs.map((log, index) => (
+                        <LogItem key={`${log.timestamp}-${index}`} log={log} />
+                    ))
+                ) : (
+                    <div className="text-center py-5">
+                        <i className="bi bi-journal-x display-4 text-muted"></i>
+                        <p className="mt-3 text-muted">Nenhum log encontrado com os filtros atuais.</p>
+                    </div>
+                )}
+            </main>
         </div>
     );
-};
-
-export default LogsViewer;
+}
