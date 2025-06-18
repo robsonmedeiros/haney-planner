@@ -1,3 +1,4 @@
+import React from 'react';
 import Tarefa from './Tarefa';
 
 function Semana({

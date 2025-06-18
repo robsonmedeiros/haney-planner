@@ -1,3 +1,5 @@
+import React from 'react';
+
 function Tarefa({ descricao, concluido, topico, expandido, onCheck, onTopicoChange, onToggleExpand }) {
     return (
         <li className="atividadeItem">

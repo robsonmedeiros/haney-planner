@@ -1,0 +1,91 @@
+PASS src/components/Semana.test.jsx
+PASS src/components/Tarefa.test.jsx
+PASS src/HaneyPlanner.test.jsx
+  ● Console
+
+    console.log
+      ✅ Progresso salvo no backend: { message: 'Salvo com sucesso' }
+
+      at log (src/HaneyPlanner.jsx:90:25)
+
+    console.error
+      ❌ Erro ao salvar: Error: Erro de rede simulado
+          at C:\projetos\haney-planner\src\HaneyPlanner.test.jsx:154:39
+          at C:\projetos\haney-planner\node_modules\jest-mock\build\index.js:397:39
+          at C:\projetos\haney-planner\node_modules\jest-mock\build\index.js:404:13
+          at mockConstructor (C:\projetos\haney-planner\node_modules\jest-mock\build\index.js:103:19)
+          at fetch (C:\projetos\haney-planner\src\HaneyPlanner.jsx:83:9)
+          at HTMLUnknownElement.callCallback (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:4164:14)
+          at HTMLUnknownElement.callTheUserObjectsOperation (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\generated\EventListener.js:26:30)
+          at innerInvokeEventListeners (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:350:25)
+          at invokeEventListeners (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:286:3)
+          at HTMLUnknownElementImpl._dispatch (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:233:9)
+          at HTMLUnknownElementImpl.dispatchEvent (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:104:17)
+          at HTMLUnknownElement.dispatchEvent (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\generated\EventTarget.js:241:34)
+          at Object.invokeGuardedCallbackDev (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:4213:16)
+          at invokeGuardedCallback (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:4277:31)
+          at invokeGuardedCallbackAndCatchFirstError (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:4291:25)
+          at executeDispatch (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:9041:3)
+          at processDispatchQueueItemsInOrder (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:9073:7)
+          at processDispatchQueue (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:9086:5)
+          at dispatchEventsForPlugins (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:9097:3)
+          at C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:9288:12
+          at batchedUpdates$1 (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:26179:12)
+          at batchedUpdates (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:3991:12)
+          at dispatchEventForPluginEventSystem (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:9287:3)
+          at dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:6465:5)
+          at dispatchEvent (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:6457:5)
+          at dispatchDiscreteEvent (C:\projetos\haney-planner\node_modules\react-dom\cjs\react-dom.development.js:6430:5)
+          at HTMLDivElement.callTheUserObjectsOperation (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\generated\EventListener.js:26:30)
+          at innerInvokeEventListeners (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:350:25)
+          at invokeEventListeners (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:286:3)
+          at HTMLButtonElementImpl._dispatch (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:233:9)
+          at HTMLButtonElementImpl.dispatchEvent (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\events\EventTarget-impl.js:104:17)
+          at HTMLButtonElement.dispatchEvent (C:\projetos\haney-planner\node_modules\jest-environment-jsdom\node_modules\jsdom\lib\jsdom\living\generated\EventTarget.js:241:34)
+          at C:\projetos\haney-planner\node_modules\@testing-library\dom\dist\events.js:19:20
+          at C:\projetos\haney-planner\node_modules\@testing-library\react\dist\pure.js:108:16
+          at C:\projetos\haney-planner\node_modules\@testing-library\react\dist\act-compat.js:48:24
+          at act (C:\projetos\haney-planner\node_modules\react\cjs\react.development.js:2512:16)
+          at C:\projetos\haney-planner\node_modules\@testing-library\react\dist\act-compat.js:47:25
+          at Object.eventWrapper (C:\projetos\haney-planner\node_modules\@testing-library\react\dist\pure.js:107:28)
+          at fireEvent (C:\projetos\haney-planner\node_modules\@testing-library\dom\dist\events.js:12:35)
+          at Function.fireEvent.<computed> [as click] (C:\projetos\haney-planner\node_modules\@testing-library\dom\dist\events.js:110:36)
+          at Function.fireEvent.<computed> [as click] (C:\projetos\haney-planner\node_modules\@testing-library\react\dist\fire-event.js:15:52)
+          at click (C:\projetos\haney-planner\src\HaneyPlanner.test.jsx:158:19)
+          at Generator.call (C:\projetos\haney-planner\src\HaneyPlanner.test.jsx:2:1)
+          at Generator._invoke [as next] (C:\projetos\haney-planner\src\HaneyPlanner.test.jsx:2:1)
+          at asyncGeneratorStep (C:\projetos\haney-planner\src\HaneyPlanner.test.jsx:2:1)
+          at asyncGeneratorStep (C:\projetos\haney-planner\src\HaneyPlanner.test.jsx:2:1)
+          at _next (C:\projetos\haney-planner\src\HaneyPlanner.test.jsx:2:1)
+          at new Promise (<anonymous>)
+          at Object.<anonymous> (C:\projetos\haney-planner\src\HaneyPlanner.test.jsx:2:1)
+          at Promise.then.completed (C:\projetos\haney-planner\node_modules\jest-circus\build\utils.js:298:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (C:\projetos\haney-planner\node_modules\jest-circus\build\utils.js:231:10)
+          at _callCircusTest (C:\projetos\haney-planner\node_modules\jest-circus\build\run.js:316:40)
+          at _runTest (C:\projetos\haney-planner\node_modules\jest-circus\build\run.js:252:3)
+          at _runTestsForDescribeBlock (C:\projetos\haney-planner\node_modules\jest-circus\build\run.js:126:9)
+          at _runTestsForDescribeBlock (C:\projetos\haney-planner\node_modules\jest-circus\build\run.js:121:9)
+          at run (C:\projetos\haney-planner\node_modules\jest-circus\build\run.js:71:3)
+          at runAndTransformResultsToJestFormat (C:\projetos\haney-planner\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+          at jestAdapter (C:\projetos\haney-planner\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+          at runTestInternal (C:\projetos\haney-planner\node_modules\jest-runner\build\runTest.js:367:16)
+          at runTest (C:\projetos\haney-planner\node_modules\jest-runner\build\runTest.js:444:34)
+          at Object.worker (C:\projetos\haney-planner\node_modules\jest-runner\build\testWorker.js:106:12)
+
+    [0m [90m 92 |[39m             })
+     [90m 93 |[39m             [33m.[39m[36mcatch[39m(err [33m=>[39m {
+    [31m[1m>[22m[39m[90m 94 |[39m                 console[33m.[39merror([32m'❌ Erro ao salvar:'[39m[33m,[39m err)[33m;[39m
+     [90m    |[39m                         [31m[1m^[22m[39m
+     [90m 95 |[39m                 alert([32m'Erro ao salvar progresso.'[39m)[33m;[39m
+     [90m 96 |[39m             })[33m;[39m
+     [90m 97 |[39m     }[33m;[39m[0m
+
+      at error (src/HaneyPlanner.jsx:94:25)
+
+
+Test Suites: 3 passed, 3 total
+Tests:       15 passed, 15 total
+Snapshots:   0 total
+Time:        7.376 s
+Ran all test suites.

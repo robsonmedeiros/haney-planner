@@ -1,235 +1,168 @@
-import { render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import HaneyPlanner from './HaneyPlanner';
 
-// Simula constante global usada no Vite
-vi.stubGlobal('__DATA_PATH__', '/fake/data.json');
+// Mock global para a função window.alert, evitando pop-ups durante os testes.
+window.alert = jest.fn();
 
-// Simula resposta do backend
-global.fetch = vi.fn(() =>
-    Promise.resolve({
-        json: () => Promise.resolve([
-            {
-                semana: 'Semana 1',
-                inicio: '2025-06-10',
-                fim: '2025-06-14',
-                atividades: [
-                    { descricao: 'Trocar óleo', concluido: false, topico: '' }
-                ]
-            }
-        ])
-    })
-);
+// Dados mockados para simular a resposta da API, utilizados na maioria dos testes.
+const mockData = [
+    {
+        semana: 'Semana 1',
+        inicio: '2024-06-01',
+        fim: '2024-06-07',
+        atividades: [
+            { descricao: 'Troca de óleo', concluido: false, topico: '' },
+            { descricao: 'Alinhamento', concluido: true, topico: 'Dianteira' }
+        ]
+    }
+];
+
+// Define a variável global que o componente espera para o fetch inicial.
+global.__DATA_PATH__ = 'http://localhost/data.json';
 
 describe('HaneyPlanner', () => {
-    it('exibe o título principal', () => {
-        render(<HaneyPlanner />);
-        expect(screen.getByText(/Planner Interativo/i)).toBeInTheDocument();
+
+    // `beforeEach` é executado antes de cada teste, garantindo um ambiente limpo e consistente.
+    beforeEach(() => {
+        // Limpa todos os mocks para evitar que um teste influencie o outro.
+        jest.clearAllMocks();
+
+        // Mock centralizado para a função `fetch`.
+        global.fetch = jest.fn((url) => {
+            if (url === global.__DATA_PATH__) {
+                return Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve(mockData),
+                });
+            }
+            if (url.includes('/api/save')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve({ message: 'Salvo com sucesso' }),
+                });
+            }
+            return Promise.reject(new Error(`Fetch não mockado para a URL: ${url}`));
+        });
     });
 
-    it('exibe a tarefa ao expandir semana', async () => {
+    it('renderiza título e logo corretamente', async () => {
         render(<HaneyPlanner />);
-
-        const expandirBtn = await screen.findByRole('button', {
-            name: /expandir semana/i,
-        });
-        expandirBtn.click();
-
-        const tarefa = await screen.findByText(/Trocar óleo/i);
-        expect(tarefa).toBeInTheDocument();
+        expect(await screen.findByText(/Planner Interativo - Tech Challenge Haney Motorsync/i)).toBeInTheDocument();
+        expect(screen.getByAltText(/Logo Haney Motorsync/i)).toBeInTheDocument();
     });
 
-    it('permite marcar uma tarefa como concluída', async () => {
+    it('renderiza progresso total inicial corretamente', async () => {
         render(<HaneyPlanner />);
-
-        const expandirBtn = await screen.findByRole('button', {
-            name: /expandir semana/i,
-        });
-        expandirBtn.click();
-
-        const checkbox = await screen.findByRole('checkbox');
-        expect(checkbox).not.toBeChecked();
-        checkbox.click();
-        expect(checkbox).toBeChecked();
+        expect(await screen.findByText(/Progresso Total: 50%/)).toBeInTheDocument();
     });
 
-    it('permite editar o campo de tópico', async () => {
+    it('expande a semana e renderiza as tarefas contidas nela', async () => {
         render(<HaneyPlanner />);
+        fireEvent.click(await screen.findByTitle(/Expandir semana/i));
+        expect(await screen.findByText(/Troca de óleo/)).toBeInTheDocument();
+        expect(screen.getByText(/Alinhamento/)).toBeInTheDocument();
+    });
 
-        // Expande a semana
-        const expandirSemana = await screen.findByRole('button', {
-            name: /expandir semana/i,
+    it('marca tarefa como concluída e atualiza o progresso total', async () => {
+        render(<HaneyPlanner />);
+        fireEvent.click(await screen.findByTitle(/Expandir semana/i));
+        const checkboxes = await screen.findAllByRole('checkbox');
+        fireEvent.click(checkboxes[0]);
+        await waitFor(() => {
+            expect(screen.getByText(/Progresso Total: 100%/)).toBeInTheDocument();
         });
-        await expandirSemana.click();
+    });
 
-        // Espera tarefa aparecer
-        const tarefa = await screen.findByText(/Trocar óleo/i);
-        expect(tarefa).toBeInTheDocument();
-
-        // Encontra o botão de expandir tarefa com título "Expandir"
-        const expandirTarefa = await screen.findByRole('button', {
-            name: /expandir$/i,
-        });
-        await expandirTarefa.click();
-
-        // Aguarda renderização do campo de tópico
+    it('permite a edição de um tópico em uma tarefa', async () => {
+        render(<HaneyPlanner />);
+        fireEvent.click(await screen.findByTitle(/Expandir semana/i));
+        const expandirTopicoBtns = await screen.findAllByTitle(/Expandir/);
+        fireEvent.click(expandirTopicoBtns[0]);
         const textarea = await screen.findByPlaceholderText(/Adicione tópicos/i);
-        expect(textarea).toBeInTheDocument();
-
-        // Interage com o textarea dentro de um act()
-        await screen.findByPlaceholderText(/Adicione tópicos/i);
-        await act(() => {
-            textarea.value = 'Cliente solicitou revisão extra';
-            textarea.dispatchEvent(new Event('input', { bubbles: true }));
-        });
-
-        expect(textarea.value).toBe('Cliente solicitou revisão extra');
+        fireEvent.change(textarea, { target: { value: 'Verificar filtro de ar' } });
+        expect(textarea.value).toBe('Verificar filtro de ar');
     });
 
-    it('salva o progresso corretamente ao clicar no botão de salvar', async () => {
-        // Mock do fetch: GET para carregar + POST para salvar
-        global.fetch = vi.fn()
-            // Resposta do GET
-            .mockResolvedValueOnce({
-                json: () => Promise.resolve([
-                    {
-                        semana: 'Semana 1',
-                        inicio: '2025-06-10',
-                        fim: '2025-06-14',
-                        atividades: [
-                            { descricao: 'Trocar óleo', concluido: false, topico: '' }
-                        ]
-                    }
-                ])
-            })
-            // Resposta do POST
-            .mockResolvedValueOnce({
-                json: () => Promise.resolve({ sucesso: true })
-            });
-
+    it('deve formatar e exibir as datas da semana corretamente', async () => {
         render(<HaneyPlanner />);
-
-        // Expande a semana
-        const btnExpandir = await screen.findByRole('button', {
-            name: /expandir semana/i,
-        });
-        btnExpandir.click();
-
-        // Marca tarefa
-        const checkbox = await screen.findByRole('checkbox');
-        checkbox.click();
-
-        // Expande o detalhe
-        const expandirTarefa = await screen.findByRole('button', {
-            name: /expandir$/i,
-        });
-        expandirTarefa.click();
-
-        // Edita o campo
-        const textarea = await screen.findByPlaceholderText(/Adicione tópicos/i);
-        await act(() => {
-            textarea.value = 'Filtro vencido';
-            textarea.dispatchEvent(new Event('input', { bubbles: true }));
-        });
-
-        // Clica no botão de salvar
-        const salvarBtn = screen.getByTitle(/salvar progresso/i);
-        await act(() => salvarBtn.click());
-
-        // Verifica se o fetch de POST foi chamado com os dados esperados
-        expect(global.fetch).toHaveBeenCalledWith(
-            'http://localhost:4000/api/save',
-            expect.objectContaining({
-                method: 'POST',
-                headers: expect.objectContaining({
-                    'Content-Type': 'application/json'
-                }),
-                body: expect.stringContaining('"descricao":"Trocar óleo"')
-            })
-        );
+        fireEvent.click(await screen.findByTitle(/Expandir semana/i));
+        const semanaContainer = await screen.findByText(/Semana 1/i);
+        expect(semanaContainer).toHaveTextContent(/Semana 1 - 01\/06\/2024 a 07\/06\/2024/i);
     });
 
-    it('renderiza botão de salvar e permite clique', async () => {
-        global.fetch = vi.fn()
-            .mockResolvedValueOnce({
-                json: () => Promise.resolve([
-                    {
-                        semana: 'Semana 1',
-                        inicio: '2025-06-10',
-                        fim: '2025-06-14',
-                        atividades: []
-                    }
-                ])
-            })
-            .mockResolvedValueOnce({
-                ok: false,
-                json: () => Promise.resolve({ erro: 'Simulado' }) // POST
-            });
-
+    it('deve exibir a data como recebida se ela não contiver hífen', async () => {
+        const dadosComDataInvalida = [{
+            semana: 'Semana Especial',
+            inicio: 'Data Flexível',
+            fim: '2024-06-14',
+            atividades: [{ descricao: 'Planejamento', concluido: false }]
+        }];
+        global.fetch.mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(dadosComDataInvalida) }));
         render(<HaneyPlanner />);
-
-        const salvarBtn = await screen.findByTitle(/salvar progresso/i);
-        expect(salvarBtn).toBeInTheDocument();
-
-        await act(() => salvarBtn.click());
-
-        expect(global.fetch).toHaveBeenCalledWith(
-            expect.stringContaining('/api/save'),
-            expect.objectContaining({ method: 'POST' })
-        );
-    });
-    it('exibe mensagem de erro ao falhar ao salvar', async () => {
-        global.fetch = vi.fn()
-            .mockResolvedValueOnce({
-                json: () => Promise.resolve([
-                    {
-                        semana: 'Semana 1',
-                        inicio: '2025-06-10',
-                        fim: '2025-06-14',
-                        atividades: []
-                    }
-                ])
-            })
-            .mockRejectedValueOnce(new Error('Falha ao salvar'));
-
-        render(<HaneyPlanner />);
-
-        const salvarBtn = await screen.findByTitle(/salvar progresso/i);
-        await act(() => salvarBtn.click());
+        fireEvent.click(await screen.findByTitle(/Expandir semana/i));
+        const semanaContainer = await screen.findByText(/Semana Especial/i);
+        expect(semanaContainer).toHaveTextContent(/Semana Especial - Data Flexível a 14\/06\/2024/i);
     });
 
-    it('dispara erro ao salvar quando response.ok é false', async () => {
-        global.fetch = vi.fn()
-            .mockResolvedValueOnce({
-                json: () => Promise.resolve([
-                    {
-                        semana: 'Semana 1',
-                        inicio: '2025-06-10',
-                        fim: '2025-06-14',
-                        atividades: []
-                    }
-                ])
-            })
-            .mockResolvedValueOnce({
-                ok: false, // força erro nas linhas 57–60
-                json: () => Promise.resolve({})
-            });
-
+    it('deve renderizar corretamente quando a data de início é nula', async () => {
+        const dadosComDataNula = [{
+            semana: 'Semana Nula',
+            inicio: null,
+            fim: '2025-01-10',
+            atividades: [{ descricao: 'Planejamento', concluido: false }]
+        }];
+        global.fetch.mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(dadosComDataNula) }));
         render(<HaneyPlanner />);
+        fireEvent.click(await screen.findByTitle(/Expandir semana/i));
+        const semanaContainer = await screen.findByText(/Semana Nula/i);
+        expect(semanaContainer).toHaveTextContent(/Semana Nula - a 10\/01\/2025/i);
+    });
 
-        const salvarBtn = await screen.findByTitle(/salvar progresso/i);
+    // NOVO TESTE PARA COBERTURA DE BRANCH
+    it('deve calcular o progresso da semana como 0% se não houver tarefas', async () => {
+        const mockComSemanaVazia = [{
+            semana: 'Semana Vazia',
+            inicio: '2025-01-01',
+            fim: '2025-01-07',
+            atividades: [] // Semana sem atividades para testar o fallback `|| 1`
+        }];
+        global.fetch.mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(mockComSemanaVazia) }));
+        render(<HaneyPlanner />);
+        const semanaContainer = await screen.findByText(/Semana Vazia/i);
+        // Em uma semana sem tarefas, o progresso deve ser 0% para evitar divisão por zero.
+        expect(semanaContainer).toHaveTextContent(/Progresso: 0%/i);
+    });
 
-        await act(async () => {
-            try {
-                await salvarBtn.click();
-            } catch (err) {
-                expect(err.message).toMatch(/Erro ao salvar progresso/i);
+    it('deve chamar a API de salvamento e enviar o estado atualizado', async () => {
+        render(<HaneyPlanner />);
+        fireEvent.click(await screen.findByTitle(/Expandir semana/i));
+        const checkboxes = await screen.findAllByRole('checkbox');
+        fireEvent.click(checkboxes[0]);
+        fireEvent.click(screen.getByTitle(/Salvar progresso/i));
+        await waitFor(() => {
+            const saveCall = global.fetch.mock.calls.find(call => call[0].includes('/api/save'));
+            expect(saveCall).toBeDefined();
+            const body = JSON.parse(saveCall[1].body);
+            expect(body[0].atividades[0].concluido).toBe(true);
+        });
+        expect(window.alert).toHaveBeenCalledWith('Progresso salvo com sucesso!');
+    });
+
+    it('deve exibir um alerta de erro se a API de salvamento falhar', async () => {
+        global.fetch.mockImplementation((url) => {
+            if (url === global.__DATA_PATH__) {
+                return Promise.resolve({ json: () => Promise.resolve(mockData) });
+            }
+            if (url.includes('/api/save')) {
+                return Promise.reject(new Error('Erro de rede simulado'));
             }
         });
-
-        expect(global.fetch).toHaveBeenCalledTimes(2);
+        render(<HaneyPlanner />);
+        fireEvent.click(screen.getByTitle(/Salvar progresso/i));
+        await waitFor(() => {
+            expect(window.alert).toHaveBeenCalledWith('Erro ao salvar progresso.');
+        });
     });
-
-
-
 });

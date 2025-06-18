@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import './HaneyPlanner.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
