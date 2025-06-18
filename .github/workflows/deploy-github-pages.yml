@@ -1,0 +1,68 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache de dependências
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Instalar dependências (se necessário)
+        run: |
+          rm -rf node_modules
+          npm ci
+
+      - name: Build para produção
+        run: npm run build -- --mode production
+
+      - name: Upload artefatos para GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy para GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+    
+      - name: 🌐 Verificar disponibilidade do site
+        run: |
+          sleep 15
+          echo "🔎 Verificando página..."
+          curl -I https://robsonmedeiros.github.io/haney-planner/
+          echo "🔎 Verificando JSON de dados..."
+          curl -I https://robsonmedeiros.github.io/haney-planner/data/HaneyPlanner.json
