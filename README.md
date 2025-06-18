@@ -1,113 +1,174 @@
-# Haney Planner
+# 🛠️ Haney Planner
 
-Planner interativo desenvolvido em React + Vite para gerenciamento de tarefas semanais de um Tech Challenge fictício. Inspirado em Haney, a mascote da oficina Motorsync 🐾.
+**Planner interativo** desenvolvido em React + Vite para organização semanal de atividades técnicas — parte do Tech Challenge inspirado pela Haney 🐾, mascote da oficina Motorsync.
 
-## 📦 Estrutura do Projeto
-
-```
-├── public/
-│   ├── data/
-│   │   └── planner_tech_challenge.json
-│   └── logo.png
-├── src/
-│   ├── HaneyPlanner.jsx
-│   ├── HaneyPlanner.css
-│   └── main.jsx
-├── .env.production
-├── vite.config.js
-├── .github/workflows/deploy-github-pages.yml
-├── commit.sh
-└── README.md
-```
+## 📸 Preview
 
 ![Preview do Planner](public/preview_haney_planner.png)
 
 ---
 
-## 🚀 Instruções de Uso
+## 📁 Estrutura do Projeto
 
-### 1. Instalação
+```txt
+├── public/                          # Arquivos públicos acessíveis no build
+│   ├── data/
+│   │   └── HaneyPlanner.json        # Base de dados com atividades semanais
+│   ├── logo.png                     # Logotipo da aplicação
+│   └── preview_haney_planner.png   # Imagem de preview do planner
+
+├── src/                             # Código-fonte principal (frontend)
+│   ├── HaneyPlanner.jsx             # Componente principal do planner
+│   ├── HaneyPlanner.css             # Estilo do planner
+│   └── main.jsx                     # Entrada do app React + Vite
+
+├── server/                          # Backend Node.js (Express)
+│   ├── server.js                    # API para salvar e carregar progresso
+│   ├── package.json
+│   └── package-lock.json
+
+├── .github/workflows/              # CI/CD (deploy GitHub Pages)
+│   └── deploy-github-pages.yml
+
+├── .env.development                # Variáveis para ambiente dev
+├── .env.production                 # Variáveis para produção
+├── .gitignore                      # Arquivos ignorados pelo Git
+├── commit.sh                       # Script de commit automatizado
+├── index.html                      # HTML principal da aplicação
+├── package.json                    # Configuração do projeto frontend
+├── package-lock.json
+├── start.sh                        # Script de inicialização local (frontend + backend)
+├── vite.config.js                  # Configuração do Vite
+├── LICENSE                         # Licença MIT
+├── README.md                       # Documentação do projeto
+```
+
+---
+
+## 🚀 Como Rodar Localmente
+
+### 1. Instale as dependências do frontend
 
 ```bash
 npm install
 ```
 
-### 2. Execução
+### 2. Inicie o ambiente de desenvolvimento
 
 ```bash
-# Ambiente de desenvolvimento
 npm run dev
 ```
 
-> A variável `VITE_ENV` e outras devem estar configuradas no `.env.production`.
+> A aplicação estará disponível em: [http://localhost:3000](http://localhost:3000)
 
-### 3. Build de Produção
-
-```bash
-npm run build -- --mode production
-```
-
-### 4. Servir localmente (simular produção)
+### 3. Inicie o backend (Express)
 
 ```bash
-npx serve -s dist
+cd server
+npm install
+node server.js
 ```
 
----
-
-## 🔧 Alteração de Dados
-
-O arquivo `public/data/planner_tech_challenge.json` armazena as tarefas e percentuais. O botão **Salvar Progresso** salva um novo JSON.
-
-A tela `HaneyPlanner.jsx` já carrega automaticamente o **percentual total** baseado nos dados.
+> Backend responde em: [http://localhost:4000/api](http://localhost:4000/api)
 
 ---
 
-## 🚀 Deploy Automático (GitHub Pages)
+## 🧾 Edição de Dados
 
-### 1. Pré-requisitos
+As tarefas semanais estão no arquivo:
 
-- Branch `main` com estrutura correta.
-- Arquivo `.env.production` com:
-
-```env
-VITE_BASE_PATH=/haney-planner/
+```
+/public/data/HaneyPlanner.json
 ```
 
-### 2. GitHub Actions
+Cada atividade possui:
 
-A action `deploy-github-pages.yml` cuida de:
-
-- Instalação das dependências.
-- Build com modo `production`.
-- Upload para GitHub Pages.
-- Deploy com branches `gh-pages` gerenciadas automaticamente.
+- `descricao`: texto da tarefa
+- `concluido`: booleano
+- `topico`: campo opcional de observações
 
 ---
 
-## 💡 Contribuição via Script
+## 🧪 Testes Automatizados
 
-Use o script `commit.sh` para facilitar commits e deploy:
+Este projeto utiliza [Vitest](https://vitest.dev) com [React Testing Library](https://testing-library.com/) para testes de componentes e interações.
+
+### ▶️ Executar os testes
 
 ```bash
-./commit.sh
+npm run test
 ```
 
-Este script:
-- Solicita o nome da branch (prefixada com `feature/`);
-- Pede descrição do commit;
-- Faz push, merge automático na `main`;
-- Deleta a branch local e remota.
+### 📊 Executar testes com relatório de cobertura
+
+```bash
+npm run coverage
+```
+
+Será gerada uma pasta:
+
+```
+/coverage/index.html
+```
+
+Abra esse arquivo no navegador para visualizar o relatório detalhado de cobertura de código.
 
 ---
 
-## ✅ Ver Online
+## ☁️ Deploy
 
-Acesse:  
-🔗 [`https://<usuario>.github.io/haney-planner/`](https://<usuario>.github.io/haney-planner/)
+Deploy automático via GitHub Pages:
+
+🔗 [https://robsonmedeiros.github.io/haney-planner/](https://robsonmedeiros.github.io/haney-planner/)
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por [Robson Leonel Medeiros](https://github.com/robsonmedeiros)
 
 ---
 
 ## 📄 Licença
 
-MIT
+Distribuído sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## ⚙️ Scripts Auxiliares
+
+### ▶️ start.sh — Inicialização Local Automatizada
+
+Este script instala dependências, inicia o backend e o frontend, e abre o navegador automaticamente:
+
+```bash
+./start.sh
+```
+
+#### O que ele faz:
+
+1. Instala dependências do backend (Express)
+2. Inicia o backend com Nodemon na porta 4000
+3. Abre o navegador em `http://localhost:3000`
+4. Instala dependências do frontend
+5. Inicia o Vite em modo `development`
+
+---
+
+### 🧭 commit.sh — Automação de Git Flow
+
+Este script facilita o versionamento com branches `feature/`, commit, merge e limpeza:
+
+```bash
+./commit.sh
+```
+
+#### O que ele faz:
+
+1. Solicita o nome da feature → cria `feature/<nome>`
+2. Solicita a descrição do commit
+3. Adiciona, commita e dá push na feature branch
+4. Faz `checkout main`, `merge`, `push`
+5. Deleta a branch local e remota
+
+Ideal para manter seu fluxo Git organizado e padronizado.

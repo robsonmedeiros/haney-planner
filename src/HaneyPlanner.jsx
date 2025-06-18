@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import './HaneyPlanner.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import Semana from './components/Semana';
 
 function HaneyPlanner() {
     const [semanas, setSemanas] = useState([]);
@@ -20,37 +21,34 @@ function HaneyPlanner() {
                 const progresso = data.map(s =>
                     s.atividades.map(a => a.concluido === true)
                 );
-                setProgressoState(progresso);
-
                 const topicos = data.map(s =>
                     s.atividades.map(a => a.topico || '')
                 );
-                setTopicosState(topicos);
-
                 const expandido = data.map(s =>
                     s.atividades.map(() => false)
                 );
-                setExpandidoState(expandido);
 
+                setProgressoState(progresso);
+                setTopicosState(topicos);
+                setExpandidoState(expandido);
                 setSemanasVisiveis(data.map(() => false));
 
                 const total = data.reduce((acc, s) => acc + s.atividades.length, 0);
-                setTotalTarefas(total);
-
                 const concluidas = progresso.flat().filter(Boolean).length;
+
+                setTotalTarefas(total);
                 setTotalConcluidas(concluidas);
             });
     }, []);
 
     const handleCheck = (semanaIdx, tarefaIdx) => {
-        const newState = progressoState.map((semana, i) =>
+        const updated = progressoState.map((semana, i) =>
             semana.map((checked, j) =>
                 i === semanaIdx && j === tarefaIdx ? !checked : checked
             )
         );
-        setProgressoState(newState);
-        const total = newState.flat().filter(Boolean).length;
-        setTotalConcluidas(total);
+        setProgressoState(updated);
+        setTotalConcluidas(updated.flat().filter(Boolean).length);
     };
 
     const handleTopicoChange = (semanaIdx, tarefaIdx, value) => {
@@ -60,15 +58,15 @@ function HaneyPlanner() {
     };
 
     const toggleExpandir = (semanaIdx, tarefaIdx) => {
-        const novo = [...expandidoState];
-        novo[semanaIdx][tarefaIdx] = !novo[semanaIdx][tarefaIdx];
-        setExpandidoState(novo);
+        const updated = [...expandidoState];
+        updated[semanaIdx][tarefaIdx] = !updated[semanaIdx][tarefaIdx];
+        setExpandidoState(updated);
     };
 
     const toggleSemana = (idx) => {
-        const novo = [...semanasVisiveis];
-        novo[idx] = !novo[idx];
-        setSemanasVisiveis(novo);
+        const updated = [...semanasVisiveis];
+        updated[idx] = !updated[idx];
+        setSemanasVisiveis(updated);
     };
 
     const salvarProgresso = () => {
@@ -97,15 +95,16 @@ function HaneyPlanner() {
             });
     };
 
-    const formatarData = (data) => {
-        const [ano, mes, dia] = data.split('-');
-        return `${dia}/${mes}/${ano}`;
+    const calcularProgressoSemana = (semanaIdx) => {
+        const concluido = progressoState[semanaIdx]?.filter(Boolean).length || 0;
+        const total = progressoState[semanaIdx]?.length || 1;
+        return Math.round((concluido / total) * 100);
     };
 
-    const getPct = (semanaIdx) => {
-        const completadas = progressoState[semanaIdx]?.filter(Boolean).length || 0;
-        const total = progressoState[semanaIdx]?.length || 1;
-        return Math.round((completadas / total) * 100);
+    const formatarData = (data) => {
+        if (!data?.includes('-')) return data;
+        const [ano, mes, dia] = data.split('-');
+        return `${dia}/${mes}/${ano}`;
     };
 
     return (
@@ -116,57 +115,25 @@ function HaneyPlanner() {
             </header>
 
             <div className="progressoTotal">
-                Progresso Total: {Math.round((totalConcluidas / totalTarefas) * 100)}%
+                Progresso Total: {totalTarefas > 0 ? Math.round((totalConcluidas / totalTarefas) * 100) : 0}%
             </div>
 
             {semanas.map((s, i) => (
-                <div key={i}>
-                    <div className="semana">
-                        <button
-                            onClick={() => toggleSemana(i)}
-                            className="toggleSemanaBtn"
-                            title={semanasVisiveis[i] ? 'Recolher semana' : 'Expandir semana'}
-                        >
-                            <i className={`bi ${semanasVisiveis[i] ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
-                        </button>
-                        <span>
-                            {s.semana} - {formatarData(s.inicio)} a {formatarData(s.fim)}
-                        </span>
-                        <span className="progresso">Progresso: {getPct(i)}%</span>
-                    </div>
-
-                    {semanasVisiveis[i] && (
-                        <ul>
-                            {s.atividades.map((a, j) => (
-                                <li key={j} className="atividadeItem">
-                                    <div className="atividadeHeader">
-                                        <input
-                                            type="checkbox"
-                                            checked={progressoState[i]?.[j] || false}
-                                            onChange={() => handleCheck(i, j)}
-                                        />
-                                        <button
-                                            onClick={() => toggleExpandir(i, j)}
-                                            className="iconeToggleBtn"
-                                            title={expandidoState[i]?.[j] ? "Recolher" : "Expandir"}
-                                        >
-                                            <i className={`bi ${expandidoState[i]?.[j] ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
-                                        </button>
-                                        <span className="descricaoTarefa">{a.descricao}</span>
-                                    </div>
-
-                                    {expandidoState[i]?.[j] && (
-                                        <textarea
-                                            value={topicosState[i]?.[j] || ''}
-                                            onChange={(e) => handleTopicoChange(i, j, e.target.value)}
-                                            placeholder="Adicione tópicos ou observações..."
-                                        />
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
+                <Semana
+                    key={i}
+                    dados={s}
+                    index={i}
+                    visivel={semanasVisiveis[i]}
+                    progresso={calcularProgressoSemana(i)}
+                    progressoState={progressoState[i]}
+                    topicosState={topicosState[i]}
+                    expandidoState={expandidoState[i]}
+                    onToggleSemana={toggleSemana}
+                    onToggleExpand={toggleExpandir}
+                    onCheck={handleCheck}
+                    onTopicoChange={handleTopicoChange}
+                    formatarData={formatarData}
+                />
             ))}
 
             <button className="salvarBtn" onClick={salvarProgresso} title="Salvar progresso">
