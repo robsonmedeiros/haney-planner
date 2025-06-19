@@ -6,14 +6,10 @@ import LogsViewer from './components/LogsViewer';
 import logger from './utils/logger';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-// Import Bootstrap JavaScript bundle (optional, only if you need JS components like dropdowns, modals)
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 /**
  * Extrai detalhes relevantes de um elemento HTML para logging.
- * @param {HTMLElement} element - O elemento do qual extrair dados.
- * @returns {object} Um objeto com detalhes do elemento.
  */
 const getElementDetails = (element) => {
     if (!element) return {};
@@ -26,7 +22,6 @@ const getElementDetails = (element) => {
     if (element.name) details.name = element.name;
     if (element.type) details.type = element.type;
     if (element.value) {
-        // Evita registrar informações sensíveis de campos de senha
         details.value = element.type === 'password' ? '********' : element.value;
     }
     return details;
@@ -38,12 +33,10 @@ const getElementDetails = (element) => {
 function GlobalActionLogger() {
     const location = useLocation();
 
-    // Log de mudanças de rota
     useEffect(() => {
         logger.info('Navegação para nova rota', { path: location.pathname });
     }, [location]);
 
-    // Log de interações gerais do usuário
     useEffect(() => {
         const handleUserClick = (e) => {
             logger.info('Clique do usuário', getElementDetails(e.target));
@@ -59,21 +52,15 @@ function GlobalActionLogger() {
             const formDetails = getElementDetails(form);
             const data = {};
 
-            // Captura dados do formulário, com atenção a dados sensíveis
             for (let [key, value] of formData.entries()) {
                 const input = form.elements[key];
-                if (input && input.type === 'password') {
-                    data[key] = '********';
-                } else {
-                    data[key] = value;
-                }
+                data[key] = input?.type === 'password' ? '********' : value;
             }
             logger.info('Envio de formulário', { ...formDetails, data });
         };
 
-        // Adiciona listeners usando captura para garantir que sejam acionados
         window.addEventListener('click', handleUserClick, true);
-        window.addEventListener('change', handleInputChange, true); // Captura o valor final de inputs, selects, etc.
+        window.addEventListener('change', handleInputChange, true);
         window.addEventListener('submit', handleFormSubmit, true);
 
         return () => {
@@ -83,13 +70,13 @@ function GlobalActionLogger() {
         };
     }, []);
 
-    return null; // Este componente não renderiza nada na UI.
+    return null;
 }
 
 function App() {
     return (
-        <Router>
-            <GlobalActionLogger /> {/* Componente responsável pelo logging global */}
+        <Router basename={import.meta.env.VITE_BASE_PATH || '/'}>
+            <GlobalActionLogger />
             <Routes>
                 <Route path="/" element={<HaneyPlanner />} />
                 <Route path="/logs" element={<LogsViewer />} />

@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 const ports = {
     development: 3000,
     hom: 3001,
-    preview: 3003,
+    preview: 3000,
 };
 
 const mode = process.env.VITE_ENV || 'development';

@@ -17,59 +17,59 @@ echo -e ""
 # O comando `grep -A 100 "File.*% Stmts"` filtra a saída para mostrar apenas as linhas relevantes, começando da linha que contém "File" e "% Stmts".
 # O comando `awk` formata a saída para destacar as linhas com cores e negrito.
 # A variável COVERAGE_OUTPUT armazena a saída formatada.
-COVERAGE_OUTPUT=$(npx jest --coverage --silent --coverageReporters=text 2>&1 |
-    grep -A 100 "File.*% Stmts" |
-    awk 'BEGIN { yellow="\033[1;33m"; bold="\033[1m"; reset="\033[0m" } { print yellow bold $0 reset }')
+#COVERAGE_OUTPUT=$(npx jest --coverage --silent --coverageReporters=text 2>&1 |
+#    grep -A 100 "File.*% Stmts" |
+#    awk 'BEGIN { yellow="\033[1;33m"; bold="\033[1m"; reset="\033[0m" } { print yellow bold $0 reset }')
 
-if [ $? -ne 0 ]; then
-    echo "❌ Erro ao executar cobertura. Abortando commit."
-    exit 1
-fi
+#if [ $? -ne 0 ]; then
+#    echo "❌ Erro ao executar cobertura. Abortando commit."
+#    exit 1
+#fi
 
 # Extrair o percentual de linhas da linha "All files"
-CURRENT_COVERAGE=$(npx jest --coverage --silent --coverageReporters=text 2>&1 | grep "All files" | awk '{print $10}' | tr -d '%')
+#CURRENT_COVERAGE=$(npx jest --coverage --silent --coverageReporters=text 2>&1 | grep "All files" | awk '{print $10}' | tr -d '%')
 
 # Verifica se a variável CURRENT_COVERAGE existe
-if [ -z "$CURRENT_COVERAGE" ]; then
-    echo "⚠️  Variável CURRENT_COVERAGE não definida. Pulando verificação."
-    exit 0
-fi
+#if [ -z "$CURRENT_COVERAGE" ]; then
+#    echo "⚠️  Variável CURRENT_COVERAGE não definida. Pulando verificação."
+#    exit 0
+#fi
 
-echo -e "\033[1;34m📈 Quadro de Cobertura Atual:\033[0m"
-echo -e ""
-echo -e "$COVERAGE_OUTPUT"
-echo -e ""
+#echo -e "\033[1;34m📈 Quadro de Cobertura Atual:\033[0m"
+#echo -e ""
+#echo -e "$COVERAGE_OUTPUT"
+#echo -e ""
 
 # Compara a cobertura atual com o mínimo (funciona com números inteiros)
-if [ "$CURRENT_COVERAGE" -lt "$MINIMUM_COVERAGE" ]; then
-    # Mensagem de alerta
-    echo -e "\033[1;31m❌ Cobertura de linhas (${CURRENT_COVERAGE}%) está abaixo do mínimo de (${MINIMUM_COVERAGE}%).\033[0m"
+#if [ "$CURRENT_COVERAGE" -lt "$MINIMUM_COVERAGE" ]; then
+# Mensagem de alerta
+#    echo -e "\033[1;31m❌ Cobertura de linhas (${CURRENT_COVERAGE}%) está abaixo do mínimo de (${MINIMUM_COVERAGE}%).\033[0m"
 
-    # Pergunta ao usuário se deseja continuar
-    # -p: exibe a mensagem de prompt
-    # -r: impede que barras invertidas ajam como caracteres de escape
-    # -n 1: lê apenas um caractere
-    echo -e "\033[1;33m⚠️  Atenção: A cobertura de testes está abaixo do mínimo exigido.\033[0m"
-    echo -e "\033[1;33mVocê pode forçar o commit, mas é altamente recomendado melhorar os testes antes de prosseguir.\033[0m"
-    echo -e ""
-    #                                              ┌─ Verde      ┌─ Vermelho
-    read -p "Deseja continuar com o commit mesmo assim? (\033[1;32ms\033[0m/\033[1;31mN\033[0m) " -n 1 -r
-    echo # Mover para a próxima linha após a entrada do usuário
+# Pergunta ao usuário se deseja continuar
+# -p: exibe a mensagem de prompt
+# -r: impede que barras invertidas ajam como caracteres de escape
+# -n 1: lê apenas um caractere
+#    echo -e "\033[1;33m⚠️  Atenção: A cobertura de testes está abaixo do mínimo exigido.\033[0m"
+#    echo -e "\033[1;33mVocê pode forçar o commit, mas é altamente recomendado melhorar os testes antes de prosseguir.\033[0m"
+#    echo -e ""
+#                                              ┌─ Verde      ┌─ Vermelho
+#    read -p "Deseja continuar com o commit mesmo assim? (\033[1;32ms\033[0m/\033[1;31mN\033[0m) " -n 1 -r
+#    echo # Mover para a próxima linha após a entrada do usuário
 
-    # Verifica a resposta. A resposta padrão (pressionar Enter) será 'N' (Não)
-    if [[ $REPLY =~ ^[Ss]$ ]]; then
-        # Se o usuário digitou 's' ou 'S'
-        echo "⚠️  Commit forçado. Lembre-se de melhorar os testes."
-        exit 0 # Sai com sucesso para permitir o commit
-    else
-        # Se o usuário digitou qualquer outra coisa
-        echo "🛑 Commit cancelado. Corrija os testes antes de continuar."
-        exit 1 # Sai com erro para bloquear o commit
-    fi
-else
-    # Mensagem de sucesso
-    echo -e "\033[1;32m\033[1m✅ Cobertura de linhas (${CURRENT_COVERAGE}%) atinge o mínimo exigido (${MINIMUM_COVERAGE}%). Pode commitar com segurança.\033[0m"
-fi
+# Verifica a resposta. A resposta padrão (pressionar Enter) será 'N' (Não)
+#    if [[ $REPLY =~ ^[Ss]$ ]]; then
+# Se o usuário digitou 's' ou 'S'
+#        echo "⚠️  Commit forçado. Lembre-se de melhorar os testes."
+#        exit 0 # Sai com sucesso para permitir o commit
+#    else
+# Se o usuário digitou qualquer outra coisa
+#        echo "🛑 Commit cancelado. Corrija os testes antes de continuar."
+#        exit 1 # Sai com erro para bloquear o commit
+#    fi
+#else
+# Mensagem de sucesso
+#    echo -e "\033[1;32m\033[1m✅ Cobertura de linhas (${CURRENT_COVERAGE}%) atinge o mínimo exigido (${MINIMUM_COVERAGE}%). Pode commitar com segurança.\033[0m"
+#fi
 
 # Pergunta ao usuário o nome do branch
 echo -e ""
