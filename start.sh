@@ -25,5 +25,5 @@ rm -rf dist
 npm run build:prod
 npm run preview:prod
 
-echo "📊 Executando testes com cobertura..."
+#echo "📊 Executando testes com cobertura..."
 #npm run coverage
